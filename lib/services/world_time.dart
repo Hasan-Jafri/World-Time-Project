@@ -21,21 +21,21 @@ class WorldTime {
       //Make the request.
       Response response = await http
           .get(Uri.parse('http://worldtimeapi.org/api/timezone/$url'));
-      // print(response.body);
 
       Map data = jsonDecode(response.body);
       //Get Properties from data.
       String datetime = data['datetime'];
       String offset = data['utc_offset'];
-      print(offset);
       int offsetHours = int.parse(offset.substring(1, 3));
       int offsetMinutes = int.parse(offset.substring(4, 6));
       DateTime now = DateTime.parse(datetime);
-      print(now);
+
+      //If the first char is '-' then the time will be subtracted otherwise added.
       if (offset[0] == '-') {
-        now = now.subtract(Duration(hours: offsetHours,minutes: offsetMinutes));
+        now =
+            now.subtract(Duration(hours: offsetHours, minutes: offsetMinutes));
       } else {
-        now = now.add(Duration(hours: offsetHours,minutes: offsetMinutes));
+        now = now.add(Duration(hours: offsetHours, minutes: offsetMinutes));
       }
 
       //Set the time property.
